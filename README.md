@@ -197,34 +197,6 @@ interface WordData {
 - **Progressive Web App**: Offline functionality and mobile installation
 - **SEO Optimization**: Server-side rendering with Next.js migration
 
-## 🤝 Contributing
-
-We welcome contributions from the Microsoft developer community! Here's how you can help:
-
-### Development Workflow
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Make your changes following our coding standards
-4. Write or update tests as needed
-5. Commit your changes (`git commit -m 'Add amazing feature'`)
-6. Push to the branch (`git push origin feature/amazing-feature`)
-7. Open a Pull Request
-
-### Coding Standards
-- Follow TypeScript best practices
-- Use Prettier for code formatting
-- Follow the existing component structure
-- Add JSDoc comments for complex functions
-- Ensure responsive design principles
-
-## 🙏 Acknowledgments
-
-- **Microsoft Thailand** for hosting Build 2025
-- **shadcn/ui** for the beautiful component library
-- **Tailwind CSS** for the utility-first CSS framework
-- **React Community** for the amazing ecosystem
-- **GitHub Copilot** for development assistance
-
 ---
 
 Built with ❤️ for the Microsoft Developer Community in Thailand

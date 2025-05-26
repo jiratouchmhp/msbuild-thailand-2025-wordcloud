@@ -1,10 +1,10 @@
-
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent } from '@/components/ui/card';
 import { toast } from '@/hooks/use-toast';
-import { MessageSquare, Users, TrendingUp, Star } from 'lucide-react';
+import { MessageSquare, Users, TrendingUp, Star, ChartScatter } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 interface WordData {
   text: string;
@@ -17,6 +17,7 @@ interface WordData {
 const Index = () => {
   const [words, setWords] = useState<WordData[]>([]);
   const [inputWord, setInputWord] = useState('');
+  const navigate = useNavigate();
 
   // Load words from localStorage on component mount
   useEffect(() => {
@@ -177,6 +178,14 @@ const Index = () => {
               >
                 <MessageSquare className="w-4 h-4 mr-2" />
                 Submit Word
+              </Button>
+              
+              <Button
+                className="w-full bg-gradient-to-r from-blue-500 to-indigo-400 hover:from-blue-400 hover:to-indigo-400 text-white font-medium py-3 rounded-xl shadow-lg transform hover:scale-105 transition-all duration-200"
+                onClick={() => navigate('/wordCloud')}
+              >
+                <ChartScatter className="w-4 h-4 mr-2" />
+                View Word Cloud
               </Button>
             </form>
           </CardContent>

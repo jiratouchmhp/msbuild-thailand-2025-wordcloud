@@ -1,0 +1,307 @@
+
+import React, { useState, useEffect } from 'react';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Card, CardContent } from '@/components/ui/card';
+import { toast } from '@/hooks/use-toast';
+import { MessageSquare, Users, TrendingUp, Star } from 'lucide-react';
+
+interface WordData {
+  text: string;
+  count: number;
+  x: number;
+  y: number;
+  id: string;
+}
+
+const Index = () => {
+  const [words, setWords] = useState<WordData[]>([]);
+  const [inputWord, setInputWord] = useState('');
+
+  // Load words from localStorage on component mount
+  useEffect(() => {
+    const savedWords = localStorage.getItem('showcaseWords');
+    if (savedWords) {
+      setWords(JSON.parse(savedWords));
+    }
+  }, []);
+
+  // Save words to localStorage whenever words change
+  useEffect(() => {
+    localStorage.setItem('showcaseWords', JSON.stringify(words));
+  }, [words]);
+
+  const getRandomPosition = () => {
+    return {
+      x: Math.random() * 80 + 10, // 10% to 90% of container width
+      y: Math.random() * 70 + 15, // 15% to 85% of container height
+    };
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!inputWord.trim()) {
+      toast({
+        title: "Please enter a word",
+        description: "The word field cannot be empty.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    const trimmedWord = inputWord.trim().toLowerCase();
+    
+    setWords(prevWords => {
+      const existingWordIndex = prevWords.findIndex(word => word.text.toLowerCase() === trimmedWord);
+      
+      if (existingWordIndex !== -1) {
+        // Word exists, increment count
+        const updatedWords = [...prevWords];
+        updatedWords[existingWordIndex] = {
+          ...updatedWords[existingWordIndex],
+          count: updatedWords[existingWordIndex].count + 1,
+        };
+        return updatedWords;
+      } else {
+        // New word, add to array
+        const newWord: WordData = {
+          text: trimmedWord,
+          count: 1,
+          ...getRandomPosition(),
+          id: Date.now().toString() + Math.random(),
+        };
+        return [...prevWords, newWord];
+      }
+    });
+
+    setInputWord('');
+    toast({
+      title: "Word submitted successfully!",
+      description: `"${trimmedWord}" has been added to the showcase.`,
+    });
+  };
+
+  const getFontSize = (count: number) => {
+    const baseSize = 16;
+    const multiplier = Math.min(count * 0.5, 4); // Cap the multiplier at 4x
+    return baseSize + (count - 1) * 8 + multiplier * 4;
+  };
+
+  const getOpacity = (count: number) => {
+    return Math.min(0.7 + count * 0.1, 1);
+  };
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
+      {/* Floating Elements */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-20 left-10 w-16 h-16 bg-blue-500/10 rounded-lg transform rotate-12 animate-pulse"></div>
+        <div className="absolute top-40 right-20 w-12 h-12 bg-indigo-500/10 rounded-full animate-bounce"></div>
+        <div className="absolute bottom-32 left-1/4 w-20 h-20 bg-blue-600/10 transform skew-x-12"></div>
+        <div className="absolute top-1/2 right-10 w-10 h-10 bg-slate-400/10 rounded-lg transform rotate-45"></div>
+      </div>
+
+      {/* Header */}
+      <header className="bg-white/95 backdrop-blur-sm shadow-sm border-b border-gray-200 relative z-10">
+        <div className="container mx-auto px-4 py-6">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-4">
+              <div className="relative">
+                <div className="w-12 h-12 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-lg flex items-center justify-center shadow-lg">
+                  <span className="text-white font-bold text-lg">M</span>
+                </div>
+                <div className="absolute -top-1 -right-1 w-4 h-4 bg-blue-500 rounded-full animate-ping"></div>
+              </div>
+              <div>
+                <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+                  Microsoft Build Thailand 2025
+                </h1>
+                <p className="text-sm text-gray-600 flex items-center gap-1">
+                  <MessageSquare className="w-4 h-4" />
+                  Word Showcase - Share Your Voice
+                </p>
+              </div>
+            </div>
+            <div className="text-right">
+              <div className="text-2xl font-bold text-blue-600">
+                {words.length}
+              </div>
+              <div className="text-sm text-gray-600 flex items-center gap-1">
+                <Users className="w-4 h-4" />
+                words submitted
+              </div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      {/* Main Content */}
+      <main className="container mx-auto px-4 py-12 relative z-10">
+        {/* Hero Section */}
+        <div className="text-center mb-12 animate-fade-in">
+          <h2 className="text-4xl font-bold text-gray-900 mb-4">
+            Share Your Voice
+          </h2>
+          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+            After experiencing all the content from Microsoft Build 2025, we invite you to share words that inspired or motivated you.
+          </p>
+        </div>
+
+        {/* Submission Form */}
+        <Card className="mb-16 max-w-lg mx-auto shadow-xl border-0 bg-white/90 backdrop-blur-sm relative overflow-hidden transform hover:scale-105 transition-all duration-300">
+          <div className="absolute inset-0 bg-gradient-to-r from-blue-500/5 to-indigo-500/5"></div>
+          <CardContent className="p-8 relative z-10">
+            <div className="text-center mb-6">
+              <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-full mx-auto mb-4 flex items-center justify-center shadow-lg">
+                <MessageSquare className="w-8 h-8 text-white" />
+              </div>
+              <h3 className="text-2xl font-bold text-gray-900 mb-2">
+                Submit Your Word
+              </h3>
+            </div>
+            <form onSubmit={handleSubmit} className="space-y-6">
+              <div>
+                <Input
+                  type="text"
+                  placeholder="Enter your word..."
+                  value={inputWord}
+                  onChange={(e) => setInputWord(e.target.value)}
+                  className="text-center text-lg border-2 border-blue-200 focus:border-blue-500 focus:ring-blue-500 rounded-xl py-3 transition-all duration-200"
+                  maxLength={50}
+                />
+              </div>
+              <Button 
+                type="submit" 
+                className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-medium py-3 rounded-xl shadow-lg transform hover:scale-105 transition-all duration-200"
+              >
+                <MessageSquare className="w-4 h-4 mr-2" />
+                Submit Word
+              </Button>
+            </form>
+          </CardContent>
+        </Card>
+
+        {/* Word Cloud Display */}
+        <div className="relative mb-16">
+          
+          {words.length === 0 ? (
+            <div className="text-center py-20 animate-fade-in">
+              <div className="w-24 h-24 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-full mx-auto mb-6 flex items-center justify-center shadow-lg">
+                <Star className="text-white text-3xl" />
+              </div>
+              <div className="text-gray-700 text-xl mb-4">
+                Be the first to contribute!
+              </div>
+              <div className="text-gray-500 text-sm">
+                Submit a word to start building our community showcase
+              </div>
+            </div>
+          ) : (
+            <div className="relative h-96 bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-gray-200 overflow-hidden">
+              {/* Decorative elements */}
+              <div className="absolute top-4 left-4 w-6 h-6 bg-blue-500/20 rounded-lg transform rotate-12"></div>
+              <div className="absolute top-4 right-4 w-4 h-4 bg-indigo-500/20 rounded-full"></div>
+              <div className="absolute bottom-4 left-4 w-8 h-8 bg-blue-600/20 transform skew-x-12"></div>
+              
+              {words.map((word, index) => (
+                <div
+                  key={word.id}
+                  className="absolute transform -translate-x-1/2 -translate-y-1/2 cursor-pointer transition-all duration-500 hover:scale-110 animate-fade-in"
+                  style={{
+                    left: `${word.x}%`,
+                    top: `${word.y}%`,
+                    fontSize: `${getFontSize(word.count)}px`,
+                    opacity: getOpacity(word.count),
+                    color: `hsl(${210 + (index % 3) * 20}, 70%, ${Math.max(40, 60 - word.count * 5)}%)`,
+                    fontWeight: Math.min(400 + word.count * 100, 700),
+                    textShadow: '0 2px 4px rgba(0,0,0,0.1)',
+                    animationDelay: `${index * 0.1}s`,
+                  }}
+                  title={`"${word.text}" - submitted ${word.count} time${word.count > 1 ? 's' : ''}`}
+                >
+                  {word.text}
+                  {word.count > 1 && (
+                    <span className="ml-2 text-xs bg-blue-500 text-white px-2 py-1 rounded-full shadow-sm">
+                      {word.count}
+                    </span>
+                  )}
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* Stats */}
+        {words.length > 0 && (
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto mb-16">
+            <Card className="text-center p-6 bg-gradient-to-br from-blue-500 to-blue-600 text-white border-0 shadow-xl transform hover:scale-105 transition-all duration-300">
+              <div className="text-3xl font-bold mb-2">{words.length}</div>
+              <div className="text-sm opacity-90">Unique Words</div>
+            </Card>
+            <Card className="text-center p-6 bg-gradient-to-br from-indigo-500 to-indigo-600 text-white border-0 shadow-xl transform hover:scale-105 transition-all duration-300">
+              <div className="text-3xl font-bold mb-2">
+                {words.reduce((sum, word) => sum + word.count, 0)}
+              </div>
+              <div className="text-sm opacity-90">Total Contributions</div>
+            </Card>
+            <Card className="text-center p-6 bg-gradient-to-br from-blue-600 to-indigo-600 text-white border-0 shadow-xl transform hover:scale-105 transition-all duration-300">
+              <div className="text-3xl font-bold mb-2">
+                {Math.max(...words.map(word => word.count))}
+              </div>
+              <div className="text-sm opacity-90">Most Popular</div>
+            </Card>
+          </div>
+        )}
+
+        {/* Instructions */}
+        <div className="text-center max-w-4xl mx-auto">
+          <Card className="p-8 bg-white/80 backdrop-blur-sm border-0 shadow-xl">
+            <h3 className="font-bold text-xl mb-6 text-gray-900">
+              How It Works
+            </h3>
+            <div className="grid md:grid-cols-2 gap-6 text-sm text-gray-700">
+              <div className="space-y-3">
+                <p className="flex items-center gap-2">
+                  <span className="w-2 h-2 bg-blue-500 rounded-full"></span>
+                  Submit words that represent your experience
+                </p>
+                <p className="flex items-center gap-2">
+                  <span className="w-2 h-2 bg-indigo-500 rounded-full"></span>
+                  Popular words grow larger in the showcase
+                </p>
+              </div>
+              <div className="space-y-3">
+                <p className="flex items-center gap-2">
+                  <span className="w-2 h-2 bg-blue-600 rounded-full"></span>
+                  Hover over words to see submission counts
+                </p>
+                <p className="flex items-center gap-2">
+                  <span className="w-2 h-2 bg-indigo-600 rounded-full"></span>
+                  Watch our community showcase grow!
+                </p>
+              </div>
+            </div>
+          </Card>
+        </div>
+      </main>
+
+      {/* Footer */}
+      <footer className="mt-20 bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-12 relative z-10">
+        <div className="container mx-auto px-4 text-center">
+          <div className="flex items-center justify-center gap-3 mb-4">
+            <TrendingUp className="w-6 h-6" />
+            <span className="text-2xl font-bold">Microsoft Community Showcase</span>
+            <TrendingUp className="w-6 h-6" />
+          </div>
+          <p className="opacity-90">Powered by Microsoft TH • Built with GitHub Copilot</p>
+          <div className="mt-4 text-sm opacity-75">
+            Connecting voices, inspiring innovation
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
+};
+
+export default Index;

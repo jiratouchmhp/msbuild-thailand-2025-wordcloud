@@ -17,9 +17,10 @@ interface WordData {
 interface IndexProps {
   words: WordData[];
   setWords: React.Dispatch<React.SetStateAction<WordData[]>>;
+  wsSubmitWord: (word: string) => void;
 }
 
-const Index: React.FC<IndexProps> = ({ words, setWords }) => {
+const Index: React.FC<IndexProps> = ({ words, setWords, wsSubmitWord }) => {
   const [inputWord, setInputWord] = useState('');
   const navigate = useNavigate();
 
@@ -44,44 +45,13 @@ const Index: React.FC<IndexProps> = ({ words, setWords }) => {
 
     const trimmedWord = inputWord.trim().toLowerCase();
     
-    setWords(prevWords => {
-      const existingWordIndex = prevWords.findIndex(word => word.text.toLowerCase() === trimmedWord);
-      
-      if (existingWordIndex !== -1) {
-        // Word exists, increment count
-        const updatedWords = [...prevWords];
-        updatedWords[existingWordIndex] = {
-          ...updatedWords[existingWordIndex],
-          count: updatedWords[existingWordIndex].count + 1,
-        };
-        return updatedWords;
-      } else {
-        // New word, add to array
-        const newWord: WordData = {
-          text: trimmedWord,
-          count: 1,
-          ...getRandomPosition(),
-          id: Date.now().toString() + Math.random(),
-        };
-        return [...prevWords, newWord];
-      }
-    });
+    wsSubmitWord(trimmedWord);
 
     setInputWord('');
     toast({
       title: "Word submitted successfully!",
       description: `"${trimmedWord}" has been added to the showcase.`,
     });
-  };
-
-  const getFontSize = (count: number) => {
-    const baseSize = 16;
-    const multiplier = Math.min(count * 0.5, 4); // Cap the multiplier at 4x
-    return baseSize + (count - 1) * 8 + multiplier * 4;
-  };
-
-  const getOpacity = (count: number) => {
-    return Math.min(0.7 + count * 0.1, 1);
   };
 
   return (

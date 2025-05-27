@@ -12,6 +12,5 @@
   "author": "MSBuild Thailand 2025",
   "license": "MIT",
   "dependencies": {
-    "@azure-rest/communication-job-router": "^1.1.0-beta.2"
   }
 }

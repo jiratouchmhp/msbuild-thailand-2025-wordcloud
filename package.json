@@ -1,0 +1,17 @@
+{
+  "name": "msbuild-thailand-2025-wordcloud",
+  "version": "1.0.0",
+  "description": "--- page_type: sample languages: - javascript - nodejs",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "setup": "cd Server && npm install && cd ../Client && npm install && cd ..",
+    "start": "cd Client && npm run start && cd ..",
+    "build": "cd Server && npm run build && cd ../Client && npm run build && cd ..",
+    "package": "cd Client && npm run package && cd .."
+  },
+  "author": "MSBuild Thailand 2025",
+  "license": "MIT",
+  "dependencies": {
+    "@azure-rest/communication-job-router": "^1.1.0-beta.2"
+  }
+}

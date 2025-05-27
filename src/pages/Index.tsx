@@ -14,23 +14,14 @@ interface WordData {
   id: string;
 }
 
-const Index = () => {
-  const [words, setWords] = useState<WordData[]>([]);
+interface IndexProps {
+  words: WordData[];
+  setWords: React.Dispatch<React.SetStateAction<WordData[]>>;
+}
+
+const Index: React.FC<IndexProps> = ({ words, setWords }) => {
   const [inputWord, setInputWord] = useState('');
   const navigate = useNavigate();
-
-  // Load words from localStorage on component mount
-  useEffect(() => {
-    const savedWords = localStorage.getItem('showcaseWords');
-    if (savedWords) {
-      setWords(JSON.parse(savedWords));
-    }
-  }, []);
-
-  // Save words to localStorage whenever words change
-  useEffect(() => {
-    localStorage.setItem('showcaseWords', JSON.stringify(words));
-  }, [words]);
 
   const getRandomPosition = () => {
     return {

@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -15,74 +14,13 @@ interface WordData {
   id: string;
 }
 
-const WordCloud = () => {
-  const [words, setWords] = useState<WordData[]>([]);
-  const [inputWord, setInputWord] = useState('');
+interface WordCloudProps {
+  words: WordData[];
+  setWords: React.Dispatch<React.SetStateAction<WordData[]>>;
+}
+
+const WordCloud: React.FC<WordCloudProps> = ({ words, setWords }) => {
   const navigate = useNavigate();
-
-  // Load words from localStorage on component mount
-  useEffect(() => {
-    const savedWords = localStorage.getItem('showcaseWords');
-    if (savedWords) {
-      setWords(JSON.parse(savedWords));
-    }
-  }, []);
-
-  // Save words to localStorage whenever words change
-  useEffect(() => {
-    localStorage.setItem('showcaseWords', JSON.stringify(words));
-  }, [words]);
-
-  const getRandomPosition = () => {
-    return {
-      x: Math.random() * 80 + 10, // 10% to 90% of container width
-      y: Math.random() * 70 + 15, // 15% to 85% of container height
-    };
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    if (!inputWord.trim()) {
-      toast({
-        title: "Please enter a word",
-        description: "The word field cannot be empty.",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    const trimmedWord = inputWord.trim().toLowerCase();
-    
-    setWords(prevWords => {
-      const existingWordIndex = prevWords.findIndex(word => word.text.toLowerCase() === trimmedWord);
-      
-      if (existingWordIndex !== -1) {
-        // Word exists, increment count
-        const updatedWords = [...prevWords];
-        updatedWords[existingWordIndex] = {
-          ...updatedWords[existingWordIndex],
-          count: updatedWords[existingWordIndex].count + 1,
-        };
-        return updatedWords;
-      } else {
-        // New word, add to array
-        const newWord: WordData = {
-          text: trimmedWord,
-          count: 1,
-          ...getRandomPosition(),
-          id: Date.now().toString() + Math.random(),
-        };
-        return [...prevWords, newWord];
-      }
-    });
-
-    setInputWord('');
-    toast({
-      title: "Word submitted successfully!",
-      description: `"${trimmedWord}" has been added to the showcase.`,
-    });
-  };
 
   const getFontSize = (count: number) => {
     const baseSize = 16;

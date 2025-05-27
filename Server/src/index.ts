@@ -1,4 +1,5 @@
 import express from 'express';
+import cors from 'cors';
 import { createServer } from 'node:http';
 import { Server } from 'socket.io';
 
@@ -40,14 +41,23 @@ const saveWordToServerMemory = (inputWord: String) => {
   }
 }
 
+const FRONTEND_URL = "http://localhost:3000";
 const io = new Server(server, {
   cors: {
-    origin: "http://localhost:3000"
+    origin: FRONTEND_URL
   }
 });
 
+app.use(cors({
+  origin: FRONTEND_URL,
+}));
+
 app.get('/', (req, res) => {
   res.send('Welcome to the Microsoft Build Thailand 2025👋, API server is running ✨');
+});
+
+app.get('/api/words', (req, res) => {
+  res.send(words);
 });
 
 io.on('connection', (socket) => {

@@ -5,6 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Card, CardContent } from '@/components/ui/card';
 import { toast } from '@/hooks/use-toast';
 import { MessageSquare, Users, TrendingUp, Star } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 interface WordData {
   text: string;
@@ -17,6 +18,7 @@ interface WordData {
 const WordCloud = () => {
   const [words, setWords] = useState<WordData[]>([]);
   const [inputWord, setInputWord] = useState('');
+  const navigate = useNavigate();
 
   // Load words from localStorage on component mount
   useEffect(() => {
@@ -140,6 +142,18 @@ const WordCloud = () => {
       <main className="container mx-auto px-4 py-6 relative z-10">
         {/* Word Cloud Display */}
         <div className="relative mb-8">
+          {/* Back Button */}
+          <Button
+            variant="outline"
+            className="absolute top-4 left-4 z-20 bg-gradient-to-r from-blue-500 to-indigo-400 hover:from-blue-400 hover:to-indigo-400 text-white hover:text-white font-medium py-3 rounded-xl shadow-lg transform hover:scale-105 transition-all duration-200"
+            onClick={() => navigate('/')}
+          >
+            {/* Simple left arrow using Lucide icon */}
+            <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+            </svg>
+            Back
+          </Button>
           
           {words.length === 0 ? (
             <div className="text-center py-20 animate-fade-in">

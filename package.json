@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "--- page_type: sample languages: - javascript - nodejs",
   "scripts": {
-    "setup": "cd Server && npm install && cd ../Chat && npm install && cd ..",
+    "setup": "cd Server && npm install && cd ../Client && npm install && cd ..",
     "start": "node Server/Server.js",
     "dev": "concurrently \"npm run dev --prefix Server\" \"npm start --prefix Client\"",
     "build": "npm run build --prefix Client && copyfiles -u 2 Client/dist/**/* Server/public/",

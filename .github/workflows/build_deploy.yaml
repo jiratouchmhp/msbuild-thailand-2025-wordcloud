@@ -9,7 +9,6 @@ on: push
 #   AZURE_CREDENTIALS, REGISTRY_USERNAME, REGISTRY_PASSWORD, REGISTRY_URL
 # 2. Change these variables for your configuration:
 env:
-  AZURE_WEBAPP_NAME: AppWithContainer   # set this to your application's name
   CONTAINER_REGISTRY: ${{ secrets.REGISTRY_URL }}  # set secret with Container Registry URL, example : xyz.azurecr.io
   CONTAINER_IMAGE_NAME: msbuild-thailand-2025-wordcloud  # set this to your container image name, example: nodejsapp
 # AZURE_RESOURCE_GROUP: ActionsDemo   # set this to your Azure Resource group's name - Needed only if you are provisioning the app in the workflow
@@ -66,7 +65,7 @@ jobs:
     - name: Set Web App ACR authentication
       uses: Azure/appservice-settings@v1
       with:
-        app-name: ${{ env.AZURE_WEBAPP_NAME }} 
+        app-name: ${{ secrets.AZURE_WEBAPP_NAME }} 
         app-settings-json: |
           [
               {

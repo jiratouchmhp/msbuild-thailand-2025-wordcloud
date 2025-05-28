@@ -8,6 +8,7 @@ jobs:
       id-token: write
 
     runs-on: ubuntu-latest
+    environment: DEV
     steps:
     - name: Azure CLI Login
       uses: azure/login@v2

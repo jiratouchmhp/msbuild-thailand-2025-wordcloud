@@ -24,7 +24,6 @@
     "express": "^4.21.1",
     "helmet": "^8.0.0",
     "morgan": "^1.10.0",
-    "msbuild-thailand-2025-wordcloud": "file:..",
     "serve-static": "^2.2.0",
     "socket.io": "^4.8.1"
   },

@@ -92,12 +92,12 @@ jobs:
               },
               {
                   "name": "BACKEND_URL",
-                  "value": "${{ secrets.AZURE_WEBAPP_NAME }}.azurewebsites.net",
+                  "value": "${{ secrets.AZURE_WEBAPP_URL }}",
                   "slotSetting": false
               },
               {
                   "name": "FRONTEND_URL",
-                  "value": "${{ secrets.AZURE_WEBAPP_NAME }}.azurewebsites.net",
+                  "value": "${{ secrets.AZURE_WEBAPP_URL }}",
                   "slotSetting": false
               }
           ]

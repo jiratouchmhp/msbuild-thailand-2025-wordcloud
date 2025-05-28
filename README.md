@@ -69,7 +69,7 @@ Server
 │ ├── index.ts               # main file for Express Server
 │ ├── index.test.ts          # Unit test
 │ └── wordUtils.ts           # utility function
-│─public/                    # Folder to hold build output from Client source code
+└─public/                    # Folder to hold build output from Client source code
 ```
 
 ## 🛠️ Installation & Setup

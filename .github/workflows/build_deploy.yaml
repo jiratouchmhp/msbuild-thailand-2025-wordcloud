@@ -56,6 +56,8 @@ jobs:
         
     - name: Docker Build & Push to ACR
       run: |
+        npm run build
+        cd Server
         docker build . -t ${{ env.CONTAINER_REGISTRY }}/${{ env.CONTAINER_IMAGE_NAME }}:${{ github.sha }}
         docker push ${{ env.CONTAINER_REGISTRY }}/${{ env.CONTAINER_IMAGE_NAME }}:${{ github.sha }}
     # - name: Set Web App ACR authentication

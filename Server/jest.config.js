@@ -3,5 +3,5 @@ module.exports = {
   preset: 'ts-jest',
   testEnvironment: 'node',
   modulePathIgnorePatterns: ['<rootDir>/dist/'],
-  reporters: [['github-actions', {silent: false}], 'summary'],
+  reporters: [ "default", ["jest-junit", {"outputName": "jest-junit.xml"}] ]
 };

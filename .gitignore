@@ -25,3 +25,6 @@ dist-ssr
 
 # Ignore file in public directory
 Server/public/*
+
+# Jest Junit
+jest-junit.xml

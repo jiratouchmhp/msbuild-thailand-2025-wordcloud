@@ -77,22 +77,21 @@ const WordCloud: React.FC<WordCloudProps> = ({ words, setWords }) => {
       </header>
 
       {/* Main Content */}
-      <main className="container mx-auto px-4 py-6 relative z-10">
+      <main className="container mx-auto px-4 py-2 relative z-10">
+        {/* Back Button */}
+        <Button
+          variant="outline"
+          className="top-4 left-4 z-20 bg-gradient-to-r bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white hover:text-white font-medium py-3 rounded-xl shadow-lg transform hover:scale-105 transition-all duration-200"
+          onClick={() => navigate('/')}
+        >
+          {/* Simple left arrow using Lucide icon */}
+          <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+          </svg>
+          Back
+        </Button>
         {/* Word Cloud Display */}
-        <div className="relative mb-8">
-          {/* Back Button */}
-          <Button
-            variant="outline"
-            className="absolute top-4 left-4 z-20 bg-gradient-to-r from-blue-500 to-indigo-400 hover:from-blue-400 hover:to-indigo-400 text-white hover:text-white font-medium py-3 rounded-xl shadow-lg transform hover:scale-105 transition-all duration-200"
-            onClick={() => navigate('/')}
-          >
-            {/* Simple left arrow using Lucide icon */}
-            <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
-            </svg>
-            Back
-          </Button>
-          
+        <div className="relative mb-8 py-2">          
           {words.length === 0 ? (
             <div className="text-center py-20 animate-fade-in">
               <div className="w-24 h-24 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-full mx-auto mb-6 flex items-center justify-center shadow-lg">
@@ -106,7 +105,7 @@ const WordCloud: React.FC<WordCloudProps> = ({ words, setWords }) => {
               </div>
             </div>
           ) : (
-            <div className="relative min-h-[60vh] h-[60vh] md:min-h-[70vh] md:h-[70vh] bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-gray-200 overflow-hidden flex items-center justify-center">
+            <div className="relative min-h-[60vh] h-[60vh] md:min-h-[65vh] md:h-[65vh] bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-gray-200 overflow-hidden flex items-center justify-center">
               {/* Decorative elements */}
               <div className="absolute top-4 left-4 w-6 h-6 bg-blue-500/20 rounded-lg transform rotate-12"></div>
               <div className="absolute top-4 right-4 w-4 h-4 bg-indigo-500/20 rounded-full"></div>
@@ -142,7 +141,7 @@ const WordCloud: React.FC<WordCloudProps> = ({ words, setWords }) => {
 
         {/* Stats */}
         {words.length > 0 && (
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto mb-16">
+          <div className="grid grid-cols-3 md:grid-cols-3 gap-6 max-w-4xl mx-auto mb-16">
             <Card className="text-center p-6 bg-gradient-to-br from-blue-500 to-blue-600 text-white border-0 shadow-xl transform hover:scale-105 transition-all duration-300">
               <div className="text-3xl font-bold mb-2">{words.length}</div>
               <div className="text-sm opacity-90">Unique Words</div>

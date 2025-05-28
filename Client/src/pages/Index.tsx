@@ -142,7 +142,7 @@ const Index: React.FC<IndexProps> = ({ words, setWords, wsSubmitWord }) => {
               </Button>
               
               <Button
-                className="w-full bg-gradient-to-r from-blue-500 to-indigo-400 hover:from-blue-400 hover:to-indigo-400 text-white font-medium py-3 rounded-xl shadow-lg transform hover:scale-105 transition-all duration-200"
+                className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-medium py-3 rounded-xl shadow-lg transform hover:scale-105 transition-all duration-200"
                 onClick={() => navigate('/wordCloud')}
               >
                 <ChartScatter className="w-4 h-4 mr-2" />

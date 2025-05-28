@@ -6,7 +6,7 @@ A dynamic and interactive React application built for Microsoft Build Thailand 2
 
 - **Interactive Word Cloud**: Dynamic visualization that grows larger as words gain popularity
 - **Real-time Submissions**: Submit words instantly and see them appear in the showcase
-- **Local Storage Persistence**: All submissions are saved locally and persist across sessions
+- **Websocket Integration**: All word submissions are live updates across users
 - **Beautiful UI**: Modern glass morphism design with gradient backgrounds and smooth animations
 - **Responsive Design**: Works perfectly on desktop, tablet, and mobile devices
 - **Statistics Dashboard**: View real-time metrics including total words, contributions, and most popular submissions
@@ -50,26 +50,33 @@ This application was created for Microsoft Build Thailand 2025 to:
 ## 📁 Project Structure
 
 ```
-src/
-├── components/ui/          # shadcn/ui components (buttons, cards, inputs, etc.)
-├── hooks/                  # Custom React hooks
-│   ├── use-mobile.tsx     # Mobile device detection
-│   └── use-toast.ts       # Toast notification hook
-├── lib/                   # Utility functions
-│   └── utils.ts           # Common utilities and helpers
-├── pages/                 # Page components
-│   ├── Index.tsx          # Main application page
-│   └── NotFound.tsx       # 404 error page
-├── App.tsx                # Root application component
-├── main.tsx               # Application entry point
-└── index.css              # Global styles and Tailwind imports
+Client
+└─src/
+  ├── components/ui/          # shadcn/ui components (buttons, cards, inputs, etc.)
+  ├── hooks/                  # Custom React hooks
+  │   ├── use-mobile.tsx     # Mobile device detection
+  │   └── use-toast.ts       # Toast notification hook
+  ├── lib/                   # Utility functions
+  │   └── utils.ts           # Common utilities and helpers
+  ├── pages/                 # Page components
+  │   ├── Index.tsx          # Main application page
+  │   └── NotFound.tsx       # 404 error page
+  ├── App.tsx                # Root application component
+  ├── main.tsx               # Application entry point
+  └── index.css              # Global styles and Tailwind imports
+Server
+├─src/
+│ ├── index.ts               # main file for Express Server
+│ ├── index.test.ts          # Unit test
+│ └── wordUtils.ts           # utility function
+│─public/                    # Folder to hold build output from Client source code
 ```
 
 ## 🛠️ Installation & Setup
 
 ### Prerequisites
 - Node.js 18+
-- npm, yarn
+- npm
 
 ### Quick Start
 
@@ -81,24 +88,22 @@ src/
 
 2. **Install dependencies**
    ```bash
+   # at root directory
    # Using npm
    npm install
-   
-   # Using yarn
-   yarn install
-   
+   npm run setup
+   ```
 
 3. **Start development server**
    ```bash
+   # at root directory
    # Using npm
    npm run dev
-   
-   # Using yarn
-   yarn dev
+   # script will run both Client and Server in parallel using concurrenly
    ```
 
 4. **Open your browser**
-   Navigate to `http://localhost:5173` to see the application running.
+   Navigate to `http://localhost:3000` to see the application running.
 
 ## 📱 Usage
 
@@ -143,6 +148,7 @@ npm run build        # Build for production
 npm run build:dev    # Build in development mode
 npm run preview      # Preview production build
 npm run lint         # Run ESLint for code quality
+npm run test         # Run Jest unit test
 ```
 
 ## 🏗️ Build & Deployment
@@ -162,7 +168,7 @@ The build artifacts will be stored in the `dist/` directory, ready for deploymen
 
 ## 📊 Data Management
 
-### Local Storage Schema
+### Data Schema
 ```typescript
 interface WordData {
   text: string;      // The submitted word
@@ -174,15 +180,13 @@ interface WordData {
 ```
 
 ### Data Persistence
-- All word submissions are automatically saved to browser localStorage
-- Data persists across browser sessions
-- No backend required for basic functionality
-- Can be extended with a database for multi-user synchronization
+- All word submissions are live updates across users
+- No database required for basic functionality
+- Can be extended with a database for data persistent
 
 ## 🔮 Future Enhancements
 
 ### Planned Features
-- **Real-time Synchronization**: WebSocket integration for live updates across users
 - **Word Categories**: Tagging and filtering system
 - **Export Options**: Download word cloud as image or data
 - **Admin Dashboard**: Moderation tools and analytics

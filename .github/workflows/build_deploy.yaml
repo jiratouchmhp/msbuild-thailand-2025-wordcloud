@@ -33,8 +33,11 @@ jobs:
       run: npm test
 
   build-and-deploy:
+    permissions:
+      id-token: write
     runs-on: ubuntu-latest
     environment: DEV
+    needs: run-unit-tests
     steps:
     - uses: actions/checkout@v4
     - name: Azure CLI Login

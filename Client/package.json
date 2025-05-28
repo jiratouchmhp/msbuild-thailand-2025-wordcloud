@@ -5,12 +5,12 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "start": "concurrently \"cd ../Server && npm run start\" \"npm run dev\"",
-    "start:dev": "concurrently \"cd ../Server && npm run dev\" \"npm run dev\"",
+    "start": "vite",
     "build": "vite build",
     "build:dev": "vite build --mode development",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "package": "echo 'package for production'"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",
@@ -73,6 +73,7 @@
     "@vitejs/plugin-react-swc": "^3.5.0",
     "autoprefixer": "^10.4.20",
     "concurrently": "^9.1.2",
+    "copyfiles": "^2.4.1",
     "eslint": "^9.9.0",
     "eslint-plugin-react-hooks": "^5.1.0-rc.0",
     "eslint-plugin-react-refresh": "^0.4.9",

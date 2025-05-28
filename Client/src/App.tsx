@@ -24,14 +24,27 @@ interface WordData {
   id: string;
 }
 
-const SOCKET_URL = "http://localhost:5000";
+interface AppConfig {
+  API_ENDPOINT: string;
+}
 
 const App = () => {
+  const [config, setConfig] = useState<AppConfig | null>(null);
   const [words, setWords] = useState<WordData[]>([]);
 
   // Load words from server on initial load
   useEffect(() => {
-    fetch("http://localhost:5000/api/words")
+    fetch("/config.json")
+      .then((response) => response.json())
+      .then((config) => {
+        console.log(config.API_ENDPOINT);
+        setConfig(config);
+      });
+  }, []);
+
+  useEffect(() => {
+    if (!config) return;
+    fetch(`${config.API_ENDPOINT}/api/words`)
       .then((res) => (res.ok ? res.json() : Promise.reject()))
       .then((data: WordData[]) => {
         if (Array.isArray(data) && data.length > 0) {
@@ -41,19 +54,15 @@ const App = () => {
       .catch((err) => {
         console.error("Failed to fetch words from server:", err);
       });
-  }, []);
-
-  // Save words to localStorage whenever words change
-  useEffect(() => {
-    localStorage.setItem("showcaseWords", JSON.stringify(words));
-  }, [words]);
+  }, [config]);
 
   // Keep socket instance in a ref to avoid re-connecting on re-renders
   const socketioRef = useRef<Socket | null>(null);
 
   useEffect(() => {
+    if (!config) return;
     // Connect to Socket.IO server
-    socketioRef.current = io(SOCKET_URL, {
+    socketioRef.current = io(`${config.API_ENDPOINT}`, {
       transports: ["websocket"],
     });
 
@@ -71,7 +80,7 @@ const App = () => {
     return () => {
       socketioRef.current?.disconnect();
     };
-  }, []);
+  }, [config]);
 
   const wsSubmitWord = (word: String) => {
     if (socketioRef.current && socketioRef.current.connected) {

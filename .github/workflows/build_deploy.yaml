@@ -92,8 +92,7 @@ jobs:
                   "name": "FRONTEND_URL",
                   "value": "${{ secrets.AZURE_WEBAPP_NAME }}.azurewebsites.net",
                   "slotSetting": false
-              },
-
+              }
           ]
 
     - name: 'Deploy to Azure Web App for Container'

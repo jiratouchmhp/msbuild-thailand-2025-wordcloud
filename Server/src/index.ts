@@ -8,6 +8,7 @@ import morgan from 'morgan';
 
 const PORT = process.env.PORT || 8080;
 const FRONTEND_URL = process.env.FRONTEND_URL || "http://localhost:3000";
+const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:8080";
 const app = express();
 const server = createServer(app);
 
@@ -56,6 +57,12 @@ app.use(cors({
   origin: FRONTEND_URL,
 }));
 app.use(morgan('dev'));
+
+// overwrite config.json to provide API endpoint for frontend
+app.get('/config.json', (req, res) => {
+  res.type('application/json');
+  res.send('{"API_ENDPOINT": "' + BACKEND_URL + '"}');
+});
 
 // Serve static files from the 'public' directory
 app.use(serveStatic('public', { index: ['index.html'] }))

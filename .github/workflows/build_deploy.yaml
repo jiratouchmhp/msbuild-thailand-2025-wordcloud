@@ -56,6 +56,7 @@ jobs:
         
     - name: Docker Build & Push to ACR
       run: |
+        npm run setup
         npm run build
         cd Server
         docker build . -t ${{ env.CONTAINER_REGISTRY }}/${{ env.CONTAINER_IMAGE_NAME }}:${{ github.sha }}

@@ -10,13 +10,15 @@ on: push
 # 2. Change these variables for your configuration:
 env:
   AZURE_WEBAPP_NAME: AppWithContainer   # set this to your application's name
-  CONTAINER_REGISTRY: ${{ secrets.REGISTRY_URL }}  # set secret with Container Registry URL, example : xyz.azurecr.io 
+  CONTAINER_REGISTRY: ${{ secrets.REGISTRY_URL }}  # set secret with Container Registry URL, example : xyz.azurecr.io
+  CONTAINER_IMAGE_NAME: msbuild-thailand-2025-wordcloud  # set this to your container image name, example: nodejsapp
 # AZURE_RESOURCE_GROUP: ActionsDemo   # set this to your Azure Resource group's name - Needed only if you are provisioning the app in the workflow
 # AZURE_APP_PLAN: ActionPlan  # set this to your App service plan's name - Needed only if you are provisioning the app in the workflow
   
 jobs:
   run-unit-tests:
     runs-on: ubuntu-latest
+    environment: DEV
     steps:
     - uses: actions/checkout@v4
     - name: Set up Node.js
@@ -30,53 +32,54 @@ jobs:
     - name: Run unit tests
       run: npm test
 
-  # build-and-deploy:
-  #   runs-on: ubuntu-latest
-  #   environment: dev
-  #   steps:
-  #   - uses: actions/checkout@v4
-  #   - name: Azure authentication
-  #     uses: azure/login@v2
-  #     with:
-  #       creds: ${{ secrets.AZURE_CREDENTIALS }}
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    environment: DEV
+    steps:
+    - uses: actions/checkout@v4
+    - name: Azure CLI Login
+      uses: azure/login@v2
+      with:
+        client-id: ${{ secrets.AZURE_CLIENT_ID }}
+        tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+        subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
-  #   - name: ACR authentication
-  #     uses: azure/docker-login@v1
-  #     with:
-  #       login-server: ${{ env.CONTAINER_REGISTRY }}
-  #       username: ${{ secrets.REGISTRY_USERNAME }}
-  #       password: ${{ secrets.REGISTRY_PASSWORD }}
+    - name: ACR authentication
+      uses: azure/docker-login@v2
+      with:
+        login-server: ${{ env.CONTAINER_REGISTRY }}
+        username: ${{ secrets.REGISTRY_USERNAME }}
+        password: ${{ secrets.REGISTRY_PASSWORD }}
         
-  #   - name: Docker Build & Push to ACR
-  #     run: |
-  #       docker build . -t ${{ env.CONTAINER_REGISTRY }}/nodejsapp:${{ github.sha }}
-  #       docker push ${{ env.CONTAINER_REGISTRY }}/nodejsapp:${{ github.sha }} 
+    - name: Docker Build & Push to ACR
+      run: |
+        docker build . -t ${{ env.CONTAINER_REGISTRY }}/${{ env.CONTAINER_IMAGE_NAME }}:${{ github.sha }}
+        docker push ${{ env.CONTAINER_REGISTRY }}/${{ env.CONTAINER_IMAGE_NAME }}:${{ github.sha }}
+    # - name: Set Web App ACR authentication
+    #   uses: Azure/appservice-settings@v1
+    #   with:
+    #     app-name: ${{ env.AZURE_WEBAPP_NAME }} 
+    #     app-settings-json: |
+    #       [
+    #           {
+    #               "name": "DOCKER_REGISTRY_SERVER_PASSWORD",
+    #               "value": "${{ secrets.REGISTRY_PASSWORD }}",
+    #               "slotSetting": false
+    #           },
+    #           {
+    #               "name": "DOCKER_REGISTRY_SERVER_URL",
+    #               "value": "https://${{ env.CONTAINER_REGISTRY }}",
+    #               "slotSetting": false
+    #           },
+    #           {
+    #               "name": "DOCKER_REGISTRY_SERVER_USERNAME",
+    #               "value": "${{ secrets.REGISTRY_USERNAME  }}",
+    #               "slotSetting": false
+    #           }
+    #       ]
 
-  #   - name: Set Web App ACR authentication
-  #     uses: Azure/appservice-settings@v1
-  #     with:
-  #       app-name: ${{ env.AZURE_WEBAPP_NAME }} 
-  #       app-settings-json: |
-  #         [
-  #             {
-  #                 "name": "DOCKER_REGISTRY_SERVER_PASSWORD",
-  #                 "value": "${{ secrets.REGISTRY_PASSWORD }}",
-  #                 "slotSetting": false
-  #             },
-  #             {
-  #                 "name": "DOCKER_REGISTRY_SERVER_URL",
-  #                 "value": "https://${{ env.CONTAINER_REGISTRY }}",
-  #                 "slotSetting": false
-  #             },
-  #             {
-  #                 "name": "DOCKER_REGISTRY_SERVER_USERNAME",
-  #                 "value": "${{ secrets.REGISTRY_USERNAME  }}",
-  #                 "slotSetting": false
-  #             }
-  #         ]
-
-  #   - name: 'Deploy to Azure Web App for Container'
-  #     uses: azure/webapps-deploy@v2
-  #     with: 
-  #       app-name: ${{ env.AZURE_WEBAPP_NAME }} 
-  #       images: ${{ env.CONTAINER_REGISTRY }}/nodejsapp:${{ github.sha }}
+    # - name: 'Deploy to Azure Web App for Container'
+    #   uses: azure/webapps-deploy@v2
+    #   with: 
+    #     app-name: ${{ env.AZURE_WEBAPP_NAME }} 
+    #     images: ${{ env.CONTAINER_REGISTRY }}/${{ env.CONTAINER_IMAGE_NAME }}:${{ github.sha }}

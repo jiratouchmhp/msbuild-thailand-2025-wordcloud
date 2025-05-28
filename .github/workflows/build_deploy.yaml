@@ -25,6 +25,8 @@ jobs:
         node-version: '22'
     - name: Install dependencies
       run: npm install
+    - name: Setup subproject
+      run: npm run setup
     - name: Run unit tests
       run: npm test
 

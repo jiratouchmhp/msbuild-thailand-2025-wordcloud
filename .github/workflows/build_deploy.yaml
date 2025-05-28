@@ -65,6 +65,7 @@ jobs:
         npm install
         npm run setup
         npm run build
+        ls Server/public
         cd Server
         docker build . -t ${{ env.CONTAINER_REGISTRY }}/${{ env.CONTAINER_IMAGE_NAME }}:${{ github.sha }}
         docker push ${{ env.CONTAINER_REGISTRY }}/${{ env.CONTAINER_IMAGE_NAME }}:${{ github.sha }}

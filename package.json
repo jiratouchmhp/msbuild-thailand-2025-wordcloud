@@ -6,7 +6,7 @@
     "setup": "cd Server && npm install && cd ../Client && npm install && cd ..",
     "start": "node Server/Server.js",
     "dev": "concurrently \"npm run dev --prefix Server\" \"npm start --prefix Client\"",
-    "build": "npm run build --prefix Client && copyfiles -u 2 Client/dist/**/* Server/public/",
+    "build": "npm run build --prefix Client && copyfiles -u 2 -a Client/dist/**/* Client/dist/* Server/public/",
     "test": "npm run test --prefix Server"
   },
   "author": "MSBuild Thailand 2025",

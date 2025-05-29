@@ -1,6 +1,10 @@
 name: Build and deploy Docker app to Azure
 
-on: push
+on: 
+  push:
+    branches:
+      - main
+  workflow_dispatch:
 
 # CONFIGURATION
 # For help, go to https://github.com/Azure/Actions

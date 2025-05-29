@@ -113,7 +113,7 @@ const Index: React.FC<IndexProps> = ({ words, setWords, wsSubmitWord }) => {
         {/* Submission Form */}
         {/* TODO: Add a form to submit words 
             A primary submit button, label as "Enter your word...", to submit the word
-            A secondary button label as "View Word Cloud", to navigate to the word cloud page, also styled with gradient and icon.        
+            A secondary button label as "View Word Cloud", to navigate to the "/wordCloud" page, also styled with gradient and icon.        
         */}
 
         {/* Instructions */}

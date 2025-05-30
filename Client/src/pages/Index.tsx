@@ -111,10 +111,43 @@ const Index: React.FC<IndexProps> = ({ words, setWords, wsSubmitWord }) => {
         </div>
 
         {/* Submission Form */}
-        {/* TODO: Add a form to submit words 
-            A primary submit button, label as "Enter your word...", to submit the word
-            A secondary button label as "View Word Cloud", to navigate to the "/wordCloud" page, also styled with gradient and icon.        
-        */}
+        <div className="text-center mb-12 animate-fade-in">
+          <Card className="max-w-md mx-auto p-6 bg-white/80 backdrop-blur-sm border-0 shadow-xl">
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div className="space-y-2">
+                <Input
+                  type="text"
+                  placeholder="Enter your word..."
+                  value={inputWord}
+                  onChange={(e) => setInputWord(e.target.value)}
+                  className="text-center text-lg py-3 border-2 border-gray-200 focus:border-blue-500 rounded-xl shadow-sm"
+                />
+              </div>
+              
+              <div className="space-y-3">
+                {/* Primary Submit Button */}
+                <Button
+                  type="submit"
+                  className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-medium py-3 rounded-xl shadow-lg transform hover:scale-105 transition-all duration-200"
+                >
+                  <MessageSquare className="w-5 h-5 mr-2" />
+                  Submit Word
+                </Button>
+                
+                {/* Secondary View Word Cloud Button */}
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => navigate('/wordCloud')}
+                  className="w-full bg-gradient-to-r from-indigo-500 to-blue-500 hover:from-indigo-600 hover:to-blue-600 text-white border-0 font-medium py-3 rounded-xl shadow-lg transform hover:scale-105 transition-all duration-200"
+                >
+                  <ChartScatter className="w-5 h-5 mr-2" />
+                  View Word Cloud
+                </Button>
+              </div>
+            </form>
+          </Card>
+        </div>
 
         {/* Instructions */}
         <div className="text-center max-w-4xl mx-auto">

@@ -1,0 +1,34 @@
+name: Build and Run Unit Test Workflow
+
+on: 
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+  checks: write
+  
+jobs:
+  run-unit-tests:
+    runs-on: ubuntu-latest
+    environment: DEV
+    steps:
+    - uses: actions/checkout@v4
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '22'
+    - name: Install dependencies
+      run: npm install
+    - name: Setup subproject
+      run: npm run setup
+    - name: Run unit tests
+      run: npm test
+    - name: Test Report
+      uses: dorny/test-reporter@v2
+      if: ${{ !cancelled() }}       # run this step even if previous step failed
+      with:
+        name: JEST Tests            # Name of the check run which will be created
+        path: Server/jest-*.xml    # Path to test results
+        reporter: jest-junit        # Format of test results

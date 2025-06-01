@@ -18,7 +18,7 @@ permissions:
 #   AZURE_CREDENTIALS, REGISTRY_USERNAME, REGISTRY_PASSWORD, REGISTRY_URL
 # 2. Change these variables for your configuration:
 env:
-  CONTAINER_REGISTRY: https://${{ secrets.REGISTRY_URL }}  # set secret with Container Registry URL, example : xyz.azurecr.io
+  CONTAINER_REGISTRY: ${{ secrets.REGISTRY_URL }}.azurecr.io  # set secret with Container Registry URL, example : xyz.azurecr.io
   CONTAINER_IMAGE_NAME: msbuild-thailand-2025-wordcloud  # set this to your container image name, example: nodejsapp
 # AZURE_RESOURCE_GROUP: ActionsDemo   # set this to your Azure Resource group's name - Needed only if you are provisioning the app in the workflow
 # AZURE_APP_PLAN: ActionPlan  # set this to your App service plan's name - Needed only if you are provisioning the app in the workflow
@@ -91,7 +91,7 @@ jobs:
               },
               {
                   "name": "DOCKER_REGISTRY_SERVER_URL",
-                  "value": "${{ env.CONTAINER_REGISTRY }}",
+                  "value": "https://${{ env.CONTAINER_REGISTRY }}",
                   "slotSetting": false
               },
               {

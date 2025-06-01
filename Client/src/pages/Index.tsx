@@ -111,46 +111,11 @@ const Index: React.FC<IndexProps> = ({ words, setWords, wsSubmitWord }) => {
         </div>
 
         {/* Submission Form */}
-        <Card className="mb-8 max-w-lg mx-auto shadow-xl border-0 bg-white/90 backdrop-blur-sm relative overflow-hidden transform hover:scale-105 transition-all duration-300">
-          <div className="absolute inset-0 bg-gradient-to-r from-blue-500/5 to-indigo-500/5"></div>
-          <CardContent className="p-8 relative z-10">
-            <div className="text-center mb-6">
-              <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-full mx-auto mb-4 flex items-center justify-center shadow-lg">
-                <MessageSquare className="w-8 h-8 text-white" />
-              </div>
-              <h3 className="text-2xl font-bold text-gray-900 mb-2">
-                Submit Your Word
-              </h3>
-            </div>
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div>
-                <Input
-                  type="text"
-                  placeholder="Enter your word..."
-                  value={inputWord}
-                  onChange={(e) => setInputWord(e.target.value)}
-                  className="text-center text-lg border-2 border-blue-200 focus:border-blue-500 focus:ring-blue-500 rounded-xl py-3 transition-all duration-200"
-                  maxLength={50}
-                />
-              </div>
-              <Button 
-                type="submit" 
-                className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-medium py-3 rounded-xl shadow-lg transform hover:scale-105 transition-all duration-200"
-              >
-                <MessageSquare className="w-4 h-4 mr-2" />
-                Submit Word
-              </Button>
-              
-              <Button
-                className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-medium py-3 rounded-xl shadow-lg transform hover:scale-105 transition-all duration-200"
-                onClick={() => navigate('/wordCloud')}
-              >
-                <ChartScatter className="w-4 h-4 mr-2" />
-                View Word Cloud
-              </Button>
-            </form>
-          </CardContent>
-        </Card>
+        {/* TODO: Add a form to submit words 
+            Form title: "Submit Your Word"
+            A primary submit button, label as "Submit Word", to submit the word
+            A secondary button label as "View Word Cloud", to navigate to the "/wordCloud" page, also styled with gradient and icon.        
+        */}
 
         {/* Instructions */}
         <div className="text-center max-w-4xl mx-auto">

@@ -55,7 +55,7 @@ const Index: React.FC<IndexProps> = ({ words, setWords, wsSubmitWord }) => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
+    <div className="min-h-screen flex flex-col bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
       {/* Floating Elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-20 left-10 w-16 h-16 bg-blue-500/10 rounded-lg transform rotate-12 animate-pulse"></div>
@@ -99,7 +99,7 @@ const Index: React.FC<IndexProps> = ({ words, setWords, wsSubmitWord }) => {
       </header>
 
       {/* Main Content */}
-      <main className="container mx-auto px-4 py-6 relative z-10">
+      <main className="container mx-auto px-4 py-6 relative z-10 flex-1">
         {/* Hero Section */}
         <div className="text-center mb-6 animate-fade-in">
           <h2 className="text-4xl font-bold text-gray-900 mb-4">

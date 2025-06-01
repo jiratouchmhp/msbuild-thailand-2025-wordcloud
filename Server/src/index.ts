@@ -43,6 +43,35 @@ app.get('/api/words', (req, res) => {
   res.send(getWords());
 });
 
+// RSS feed endpoint for words
+app.get('/api/words/rssfeed', (req, res) => {
+  const words = getWords();
+  const siteUrl = BACKEND_URL;
+  const rssItems = words.map(word => `
+    <item>
+      <title>${word.text}</title>
+      <description>Count: ${word.count}</description>
+      <guid>${encodeURIComponent(word.id)}</guid>
+      <pubDate>${new Date().toUTCString()}</pubDate>
+    </item>
+  `).join('');
+
+  const rss = `<?xml version="1.0" encoding="UTF-8" ?>
+    <rss version="2.0">
+      <channel>
+        <title>Microsoft Build Thailand 2025 Word Cloud</title>
+        <link>${siteUrl}</link>
+        <description>Live word submissions for the MS Build Thailand 2025 showcase</description>
+        <language>en-us</language>
+        ${rssItems}
+      </channel>
+    </rss>
+  `;
+
+  res.type('application/rss+xml');
+  res.send(rss);
+});
+
 // Serve index.html for all other GET requests (SPA fallback)
 app.use((req, res, next) => {
   if (req.method !== 'GET' || req.path.startsWith('/api') || req.path.startsWith('/socket.io')) {

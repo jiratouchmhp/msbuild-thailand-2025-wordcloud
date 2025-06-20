@@ -111,11 +111,47 @@ const Index: React.FC<IndexProps> = ({ words, setWords, wsSubmitWord }) => {
         </div>
 
         {/* Submission Form */}
-        {/* TODO: Add a form to submit words 
-            Form title: "Submit Your Word"
-            A primary submit button, label as "Submit Word", to submit the word
-            A secondary button label as "View Word Cloud", to navigate to the "/wordCloud" page, also styled with gradient and icon.        
-        */}
+        <div className="max-w-md mx-auto mb-12">
+          <Card className="p-8 bg-white/80 backdrop-blur-sm border-0 shadow-xl">
+            <div className="text-center mb-6">
+              <div className="w-16 h-16 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
+                <MessageSquare className="w-8 h-8 text-white" />
+              </div>
+              <h3 className="text-2xl font-bold text-gray-900">Submit Your Word</h3>
+            </div>
+            
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div>
+                <Input
+                  type="text"
+                  placeholder="Enter your word..."
+                  value={inputWord}
+                  onChange={(e) => setInputWord(e.target.value)}
+                  className="w-full text-center text-lg py-3 border-2 border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 rounded-lg transition-all duration-200"
+                />
+              </div>
+              
+              <div className="space-y-3">
+                <Button
+                  type="submit"
+                  className="w-full bg-gradient-to-br from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-semibold py-3 px-6 rounded-lg shadow-lg transform hover:scale-105 transition-all duration-200 flex items-center justify-center gap-2"
+                >
+                  <MessageSquare className="w-5 h-5" />
+                  Submit Word
+                </Button>
+                
+                <Button
+                  type="button"
+                  onClick={() => navigate('/wordCloud')}
+                  className="w-full bg-gradient-to-br from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-semibold py-3 px-6 rounded-lg shadow-lg transform hover:scale-105 transition-all duration-200 flex items-center justify-center gap-2"
+                >
+                  <ChartScatter className="w-5 h-5" />
+                  View Word Cloud
+                </Button>
+              </div>
+            </form>
+          </Card>
+        </div>
 
         {/* Instructions */}
         <div className="text-center max-w-4xl mx-auto">
